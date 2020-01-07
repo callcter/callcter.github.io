@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 3.8.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    hostname: new URL('http://liu-hang.cn').hostname,
+    root: '/',
+    scheme: 'Muse',
+    version: '7.7.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    comments: {"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.xml',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}
+  };
+</script>
+
+  <meta name="description" content="常用单位pxpx 是 pixel 缩写，是基于像素的单位。根据显示器的分辨率来确定长度，像素是相对于显示器屏幕分辨率而言的。譬如，windows 用户所使用的分辨率一般是96像素/英寸，而 mac 用户所使用的分辨率一般是72像素/英寸。 ptpt 是 point (磅)缩写，是一种固定长度的度量单位，大小为1/72英寸，是 PS 中用到的一种大小单位，在进行网页设计时不使用。 emem：是相对于">
+<meta name="keywords" content="css&amp;amp;3">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CSS 中的字体单位的使用方案">
+<meta property="og:url" content="http://liu-hang.cn/2017/04/04/80-css-font-size-unit/index.html">
+<meta property="og:site_name" content="dreamser.com 技术博客">
+<meta property="og:description" content="常用单位pxpx 是 pixel 缩写，是基于像素的单位。根据显示器的分辨率来确定长度，像素是相对于显示器屏幕分辨率而言的。譬如，windows 用户所使用的分辨率一般是96像素/英寸，而 mac 用户所使用的分辨率一般是72像素/英寸。 ptpt 是 point (磅)缩写，是一种固定长度的度量单位，大小为1/72英寸，是 PS 中用到的一种大小单位，在进行网页设计时不使用。 emem：是相对于">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://cdn.dreamser.com/wp-content/uploads/2017/04/WX20170404-092206@2x-1024x223.png">
+<meta property="og:updated_time" content="2019-11-21T06:56:54.664Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="CSS 中的字体单位的使用方案">
+<meta name="twitter:description" content="常用单位pxpx 是 pixel 缩写，是基于像素的单位。根据显示器的分辨率来确定长度，像素是相对于显示器屏幕分辨率而言的。譬如，windows 用户所使用的分辨率一般是96像素/英寸，而 mac 用户所使用的分辨率一般是72像素/英寸。 ptpt 是 point (磅)缩写，是一种固定长度的度量单位，大小为1/72英寸，是 PS 中用到的一种大小单位，在进行网页设计时不使用。 emem：是相对于">
+<meta name="twitter:image" content="http://cdn.dreamser.com/wp-content/uploads/2017/04/WX20170404-092206@2x-1024x223.png">
+
+<link rel="canonical" href="http://liu-hang.cn/2017/04/04/80-css-font-size-unit/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true
+  };
+</script>
+
+  <title>CSS 中的字体单位的使用方案 | dreamser.com 技术博客</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">dreamser.com 技术博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">每天进步一点点</p>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+  </ul>
+
+</nav>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope="" itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://liu-hang.cn/2017/04/04/80-css-font-size-unit/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="dreamser.com">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="dreamser.com 技术博客">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          CSS 中的字体单位的使用方案
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2017-04-04 09:23:10" itemprop="dateCreated datePublished" datetime="2017-04-04T09:23:10+08:00">2017-04-04</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2019-11-21 14:56:54" itemprop="dateModified" datetime="2019-11-21T14:56:54+08:00">2019-11-21</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/前端开发/" itemprop="url" rel="index">
+                    <span itemprop="name">前端开发</span>
+                  </a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="常用单位"><a href="#常用单位" class="headerlink" title="常用单位"></a>常用单位</h1><h3 id="px"><a href="#px" class="headerlink" title="px"></a>px</h3><p>px 是 pixel 缩写，是基于像素的单位。根据显示器的分辨率来确定长度，像素是相对于显示器屏幕分辨率而言的。譬如，windows 用户所使用的分辨率一般是96像素/英寸，而 mac 用户所使用的分辨率一般是72像素/英寸。</p>
+<h3 id="pt"><a href="#pt" class="headerlink" title="pt"></a>pt</h3><p>pt 是 point (磅)缩写，是一种固定长度的度量单位，大小为1/72英寸，是 PS 中用到的一种大小单位，在进行网页设计时不使用。</p>
+<h3 id="em"><a href="#em" class="headerlink" title="em"></a>em</h3><p>em：是相对于其父元素来设置字体大小的。 这样就会存在一个问题，进行任何元素设置，都有可能需要知道他父元素的大小，在我们多次使用时，就会带来无法预知的错误风险。</p>
+<h3 id="rem"><a href="#rem" class="headerlink" title="rem"></a>rem</h3><p>相对于根元素 html 的字体大小来设置字体大小。由于 rem 是 CSS3 新引进来的一个度量单位，所以 IE6~8 不支持。 这样就意味着，我们只需要在根元素确定一个参考值，在根元素中设置多大的字体，这完全可以根据您自己的需要来设置。</p>
+<ul>
+<li>兼容<br><img src="http://cdn.dreamser.com/wp-content/uploads/2017/04/WX20170404-092206@2x-1024x223.png" alt=""></li>
+</ul>
+<h1 id="字体单位方案"><a href="#字体单位方案" class="headerlink" title="字体单位方案"></a>字体单位方案</h1><h4 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h4><ul>
+<li><a href="http://www.dengzhr.com/frontend/css/341" target="_blank" rel="noopener">CSS中字体单位em,rem,px,pt 总结</a></li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/css-amp-3/" rel="tag"># css&amp;3</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2017/04/03/79-web-design/" rel="prev" title="网站设计">
+      <i class="fa fa-chevron-left"></i> 网站设计
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2017/04/05/81-markdown/" rel="next" title="改使用 Markdown 写博客">
+      改使用 Markdown 写博客 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let activeClass = CONFIG.comments.activeClass;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#常用单位"><span class="nav-number">1.</span> <span class="nav-text">常用单位</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#px"><span class="nav-number">1.0.1.</span> <span class="nav-text">px</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#pt"><span class="nav-number">1.0.2.</span> <span class="nav-text">pt</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#em"><span class="nav-number">1.0.3.</span> <span class="nav-text">em</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#rem"><span class="nav-number">1.0.4.</span> <span class="nav-text">rem</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#字体单位方案"><span class="nav-number">2.</span> <span class="nav-text">字体单位方案</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#参考文章"><span class="nav-number">2.0.0.1.</span> <span class="nav-text">参考文章</span></a></li></ol></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">dreamser.com</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">206</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">13</span>
+        <span class="site-state-item-name">分类</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">49</span>
+        <span class="site-state-item-name">标签</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">dreamser.com</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.8.0
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">主题 – <a href="https://muse.theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> v7.7.0
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script>
+<script src="/js/schemes/muse.js"></script>
+<script src="/js/next-boot.js"></script>
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

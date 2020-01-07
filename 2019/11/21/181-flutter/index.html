@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 3.8.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    hostname: new URL('http://liu-hang.cn').hostname,
+    root: '/',
+    scheme: 'Muse',
+    version: '7.7.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    comments: {"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.xml',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}
+  };
+</script>
+
+  <meta name="description" content="背景近一年时间都在用 React Native 开发公司的 APP，水平基本上可以说是登堂入室了。前一段时间兴起一阵 Flutter 热，后端的同事都有推荐，今年 Google 大会又推出 flutter_web，偶有闲暇，就赶紧来看看这个新的多端兼容框架。 与 RN 的封装原生组件通过 Bridge 调用不同，Flutter 的模式是使用 Google 的 UI 引擎另起炉灶，使用 Dart 语">
+<meta name="keywords" content="博客">
+<meta property="og:type" content="article">
+<meta property="og:title" content="flutter 入门（Mac）">
+<meta property="og:url" content="http://liu-hang.cn/2019/11/21/181-flutter/index.html">
+<meta property="og:site_name" content="dreamser.com 技术博客">
+<meta property="og:description" content="背景近一年时间都在用 React Native 开发公司的 APP，水平基本上可以说是登堂入室了。前一段时间兴起一阵 Flutter 热，后端的同事都有推荐，今年 Google 大会又推出 flutter_web，偶有闲暇，就赶紧来看看这个新的多端兼容框架。 与 RN 的封装原生组件通过 Bridge 调用不同，Flutter 的模式是使用 Google 的 UI 引擎另起炉灶，使用 Dart 语">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2019-11-21T06:56:54.654Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="flutter 入门（Mac）">
+<meta name="twitter:description" content="背景近一年时间都在用 React Native 开发公司的 APP，水平基本上可以说是登堂入室了。前一段时间兴起一阵 Flutter 热，后端的同事都有推荐，今年 Google 大会又推出 flutter_web，偶有闲暇，就赶紧来看看这个新的多端兼容框架。 与 RN 的封装原生组件通过 Bridge 调用不同，Flutter 的模式是使用 Google 的 UI 引擎另起炉灶，使用 Dart 语">
+
+<link rel="canonical" href="http://liu-hang.cn/2019/11/21/181-flutter/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true
+  };
+</script>
+
+  <title>flutter 入门（Mac） | dreamser.com 技术博客</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">dreamser.com 技术博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">每天进步一点点</p>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+  </ul>
+
+</nav>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope="" itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://liu-hang.cn/2019/11/21/181-flutter/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="dreamser.com">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="dreamser.com 技术博客">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          flutter 入门（Mac）
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2019-11-21 14:56:54" itemprop="dateCreated datePublished" datetime="2019-11-21T14:56:54+08:00">2019-11-21</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>近一年时间都在用 React Native 开发公司的 APP，水平基本上可以说是登堂入室了。前一段时间兴起一阵 Flutter 热，后端的同事都有推荐，今年 Google 大会又推出 flutter_web，偶有闲暇，就赶紧来看看这个新的多端兼容框架。</p>
+<p>与 RN 的封装原生组件通过 Bridge 调用不同，Flutter 的模式是使用 Google 的 UI 引擎另起炉灶，使用 Dart 语言编写，最终还是编译成原生的代码。性能方面相较RN有所提升，但是RN已经有近5年的发展了，社区相当活跃，Flutter的底层组件完全依赖Google的开发，而且起步晚，所以功能上面并不完备。</p>
+<p>安装、配置和入门实例可以按照官方的文档——<a href="https://flutterchina.club/get-started/" target="_blank" rel="noopener">Flutter 入门</a>，文档非常详细。</p>
+<h3 id="有几个注意的地方"><a href="#有几个注意的地方" class="headerlink" title="有几个注意的地方"></a>有几个注意的地方</h3><ol>
+<li>Flutter 安装的版本，我选择的是最新版本的 Beta 版本，内容比较新而且问题相对较少</li>
+<li>环境变量的配置，我的是 Mac + zshell，所以我将变量写进 .zshrc 文件中</li>
+<li>编辑工具的选择，我暂时用的是 Android Studio</li>
+<li>Android Studio 安装 Flutter 和 Dart 插件后在启动预览界面会出现“Start a new Flutter project”的选项，点击之后需要等待一段时间，并不是进程死掉</li>
+<li>新建项目时，配置完成之后开始创建，弹出“Creating Flutter Project”的窗口，会一直卡住，我开VPN用全局模式都不行，大概10分钟左右项目基本结构已经创建好了，这时候强制退出 Android Studio 的进程，然后重新打开，选择项目打开，进入项目之后会提示修复项目，马上就能修复好</li>
+<li>官方组件地址 <a href="http://pub.dartlang.org/flutter" target="_blank" rel="noopener">http://pub.dartlang.org/flutter</a> 打不开，当然，可能是我们家的网有问题</li>
+<li>Android 模拟器无法安装实例，我只能用 iOS 的模拟器测试</li>
+</ol>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><ol>
+<li>可能是习惯问题，感觉 RN 写起来更舒服一些，用 Wedget 写起来太乱了，而且很死板</li>
+<li>相关配套的服务不太完善，如pub等</li>
+<li>之前一直在用文本编辑器写代码，用了一下 IDE，好省事</li>
+</ol>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2019/11/21/178-node-version-update/" rel="prev" title="Node版本升级">
+      <i class="fa fa-chevron-left"></i> Node版本升级
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2019/11/21/180-use-nvm/" rel="next" title="使用 NVM 管理 NodeJS 版本">
+      使用 NVM 管理 NodeJS 版本 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let activeClass = CONFIG.comments.activeClass;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#背景"><span class="nav-number">1.</span> <span class="nav-text">背景</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#有几个注意的地方"><span class="nav-number">2.</span> <span class="nav-text">有几个注意的地方</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#总结"><span class="nav-number">3.</span> <span class="nav-text">总结</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">dreamser.com</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">206</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">13</span>
+        <span class="site-state-item-name">分类</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">49</span>
+        <span class="site-state-item-name">标签</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">dreamser.com</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.8.0
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">主题 – <a href="https://muse.theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> v7.7.0
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script>
+<script src="/js/schemes/muse.js"></script>
+<script src="/js/next-boot.js"></script>
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

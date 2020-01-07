@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 3.8.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    hostname: new URL('http://liu-hang.cn').hostname,
+    root: '/',
+    scheme: 'Muse',
+    version: '7.7.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    comments: {"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.xml',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}
+  };
+</script>
+
+  <meta name="description" content="到目前为止，我们的内购还没上线，先把坑记下来，请按步骤进行。文章没有截图等详细的步骤，仅仅是一个流程，然后附带一些可以参考的文章，哪怕是一个新手，也可以按照这个流程完成内购的开发，我就是个新手… 第二天就过审了，开心…">
+<meta name="keywords" content="博客">
+<meta property="og:type" content="article">
+<meta property="og:title" content="React Native 支付集成（iOS内购）">
+<meta property="og:url" content="http://liu-hang.cn/2019/11/21/202-react-native-pay-iap/index.html">
+<meta property="og:site_name" content="dreamser.com 技术博客">
+<meta property="og:description" content="到目前为止，我们的内购还没上线，先把坑记下来，请按步骤进行。文章没有截图等详细的步骤，仅仅是一个流程，然后附带一些可以参考的文章，哪怕是一个新手，也可以按照这个流程完成内购的开发，我就是个新手… 第二天就过审了，开心…">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2019-11-21T06:56:54.657Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="React Native 支付集成（iOS内购）">
+<meta name="twitter:description" content="到目前为止，我们的内购还没上线，先把坑记下来，请按步骤进行。文章没有截图等详细的步骤，仅仅是一个流程，然后附带一些可以参考的文章，哪怕是一个新手，也可以按照这个流程完成内购的开发，我就是个新手… 第二天就过审了，开心…">
+
+<link rel="canonical" href="http://liu-hang.cn/2019/11/21/202-react-native-pay-iap/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true
+  };
+</script>
+
+  <title>React Native 支付集成（iOS内购） | dreamser.com 技术博客</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">dreamser.com 技术博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">每天进步一点点</p>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+  </ul>
+
+</nav>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope="" itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://liu-hang.cn/2019/11/21/202-react-native-pay-iap/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="dreamser.com">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="dreamser.com 技术博客">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          React Native 支付集成（iOS内购）
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2019-11-21 14:56:54" itemprop="dateCreated datePublished" datetime="2019-11-21T14:56:54+08:00">2019-11-21</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>到目前为止，我们的内购还没上线，先把坑记下来，请按步骤进行。文章没有截图等详细的步骤，仅仅是一个流程，然后附带一些可以参考的文章，哪怕是一个新手，也可以按照这个流程完成内购的开发，我就是个新手…</p>
+<p>第二天就过审了，开心…</p>
+<a id="more"></a>
+<h4 id="坑们"><a href="#坑们" class="headerlink" title="坑们"></a>坑们</h4><ul>
+<li>创建新应用内购买项目需要提交新的构建版本，但是不用提交审核，不用提交审核，不用提交审核，即可沙箱测试</li>
+<li>每个商品ID都是唯一的，删掉了之后也不能用了</li>
+</ul>
+<h4 id="1-银行协议填写"><a href="#1-银行协议填写" class="headerlink" title="1. 银行协议填写"></a>1. 银行协议填写</h4><p>想要开通应用付费或者添加应用内购买项目，首先要完善付费协议，这是一篇非常详细的介绍 <a href="http://bbs.yimenapp.com/forum.php?mod=viewthread&amp;tid=11531" target="_blank" rel="noopener">《2019年苹果开发者申请IOS内购银行协议填写教程》</a>，一步步走下来没有问题。</p>
+<h4 id="2-开通应用内购买"><a href="#2-开通应用内购买" class="headerlink" title="2. 开通应用内购买"></a>2. 开通应用内购买</h4><ul>
+<li>创建的 APP ID 需要勾选 “In-App Purchase”</li>
+<li>Xcode 中开启 “In-App Purchase” 功能</li>
+</ul>
+<h4 id="3-创建应用内购买项目"><a href="#3-创建应用内购买项目" class="headerlink" title="3. 创建应用内购买项目"></a>3. 创建应用内购买项目</h4><p>操作步骤这篇文章<a href="https://xiaovv.me/2018/05/03/My-iOS-In-App-Purchase-Summarize/" target="_blank" rel="noopener">《iOS 内购（In-App Purchase）总结》</a>说得很明了，只需要看文章的添加应用内购买项目的部分就可以了。</p>
+<h4 id="4-内购功能开发"><a href="#4-内购功能开发" class="headerlink" title="4. 内购功能开发"></a>4. 内购功能开发</h4><p>我选择的组件是 <a href="https://github.com/dooboolab/react-native-iap" target="_blank" rel="noopener">react-native-iap</a>，请仔细阅读 readme。</p>
+<p>基本内容如下：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">initConnection  <span class="comment">// 初始化连接</span></span><br><span class="line">purchaseUpdatedListener &amp; purchaseErrorListener  <span class="comment">// 购买监听</span></span><br><span class="line">getProducts ｜ getSubscriptions  <span class="comment">// 商品或订阅列表获取</span></span><br><span class="line">requestPurchase ｜ requestSubscription  <span class="comment">// 购买商品或订阅</span></span><br><span class="line">finishTransactionIOS  <span class="comment">// 确认订单</span></span><br></pre></td></tr></table></figure>
+<h4 id="5-沙箱测试"><a href="#5-沙箱测试" class="headerlink" title="5. 沙箱测试"></a>5. 沙箱测试</h4><h6 id="5-1-创建沙箱测试账号"><a href="#5-1-创建沙箱测试账号" class="headerlink" title="5.1 创建沙箱测试账号"></a>5.1 创建沙箱测试账号</h6><p>如<a href="https://xiaovv.me/2018/05/03/My-iOS-In-App-Purchase-Summarize/" target="_blank" rel="noopener">《iOS 内购（In-App Purchase）总结》</a>的“配置沙箱测试帐号”</p>
+<h6 id="5-2-提交新的构建版本"><a href="#5-2-提交新的构建版本" class="headerlink" title="5.2 提交新的构建版本"></a>5.2 提交新的构建版本</h6><p>添加新的应用内购买项目时，必须要提交新的构建版本，但是不需要提交审核，在 “<strong>等待提交</strong>” 状态下，将新的应用内购买项目添加到版本中，即可进行沙箱测试</p>
+<h6 id="5-3-进行沙箱测试"><a href="#5-3-进行沙箱测试" class="headerlink" title="5.3 进行沙箱测试"></a>5.3 进行沙箱测试</h6><p>参见<a href="https://www.jianshu.com/p/1ef61a785508" target="_blank" rel="noopener">《【iOS】苹果IAP(内购)中沙盒账号使用注意事项》</a></p>
+<h4 id="6-应用上架"><a href="#6-应用上架" class="headerlink" title="6. 应用上架"></a>6. 应用上架</h4><p>可能会被退回哟，按反馈改进就行了…</p>
+<h4 id="7-服务器端流程补充"><a href="#7-服务器端流程补充" class="headerlink" title="7. 服务器端流程补充"></a>7. 服务器端流程补充</h4><p>先吐槽一下苹果的IAP服务，慢且不稳定，而且在设计时完全没考虑开发者的后端验证，直接在APP内完成所有流程，相对于支付宝、微信的流程来说，安全性及可靠性真的是差很多，但是无可奈何…</p>
+<p>我们的流程：</p>
+<ol>
+<li>APP 请求服务器下单，生成订单号</li>
+<li>APP 向 App Store 购买产品</li>
+<li>APP 获取到 App Store 的购买回调，拿到交易及收据信息</li>
+<li>APP 发送订单号和收据信息到服务器</li>
+<li>服务器向 App Store 验证订单是否成功，成功后返回给 APP</li>
+<li>APP 收到服务器的返回结果，结束交易</li>
+</ol>
+<p>这篇文章比较清晰<a href="https://www.jianshu.com/p/ac55c8e0ceae" target="_blank" rel="noopener">《iOS 内购服务器端验证是否支付成功方法》</a></p>
+<h4 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h4><ul>
+<li><a href="http://bbs.yimenapp.com/forum.php?mod=viewthread&amp;tid=11531" target="_blank" rel="noopener">2019年苹果开发者申请IOS内购银行协议填写教程</a></li>
+<li><a href="https://xiaovv.me/2018/05/03/My-iOS-In-App-Purchase-Summarize/" target="_blank" rel="noopener">iOS 内购（In-App Purchase）总结</a></li>
+<li><a href="https://www.jianshu.com/p/1ef61a785508" target="_blank" rel="noopener">【iOS】苹果IAP(内购)中沙盒账号使用注意事项</a></li>
+<li><a href="https://www.jianshu.com/p/ac55c8e0ceae" target="_blank" rel="noopener">iOS 内购服务器端验证是否支付成功方法</a></li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2019/11/21/190-python-crawler/" rel="prev" title="使用 Python 写爬虫">
+      <i class="fa fa-chevron-left"></i> 使用 Python 写爬虫
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2019/11/21/200-migrate-to-tencentcloud/" rel="next" title="迁移到腾讯云">
+      迁移到腾讯云 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let activeClass = CONFIG.comments.activeClass;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#坑们"><span class="nav-number">1.</span> <span class="nav-text">坑们</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-银行协议填写"><span class="nav-number">2.</span> <span class="nav-text">1. 银行协议填写</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-开通应用内购买"><span class="nav-number">3.</span> <span class="nav-text">2. 开通应用内购买</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-创建应用内购买项目"><span class="nav-number">4.</span> <span class="nav-text">3. 创建应用内购买项目</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-内购功能开发"><span class="nav-number">5.</span> <span class="nav-text">4. 内购功能开发</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5-沙箱测试"><span class="nav-number">6.</span> <span class="nav-text">5. 沙箱测试</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#5-1-创建沙箱测试账号"><span class="nav-number">6.0.1.</span> <span class="nav-text">5.1 创建沙箱测试账号</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#5-2-提交新的构建版本"><span class="nav-number">6.0.2.</span> <span class="nav-text">5.2 提交新的构建版本</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#5-3-进行沙箱测试"><span class="nav-number">6.0.3.</span> <span class="nav-text">5.3 进行沙箱测试</span></a></li></ol></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#6-应用上架"><span class="nav-number">7.</span> <span class="nav-text">6. 应用上架</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#7-服务器端流程补充"><span class="nav-number">8.</span> <span class="nav-text">7. 服务器端流程补充</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#参考文章"><span class="nav-number">9.</span> <span class="nav-text">参考文章</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">dreamser.com</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">206</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">13</span>
+        <span class="site-state-item-name">分类</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">49</span>
+        <span class="site-state-item-name">标签</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">dreamser.com</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.8.0
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">主题 – <a href="https://muse.theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> v7.7.0
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script>
+<script src="/js/schemes/muse.js"></script>
+<script src="/js/next-boot.js"></script>
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

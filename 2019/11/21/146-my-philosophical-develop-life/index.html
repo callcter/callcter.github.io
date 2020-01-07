@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 3.8.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    hostname: new URL('http://liu-hang.cn').hostname,
+    root: '/',
+    scheme: 'Muse',
+    version: '7.7.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    comments: {"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.xml',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}
+  };
+</script>
+
+  <meta name="description" content="所谓佛系，就是不争不抢，一切随缘，时候到了想写代码了，就写两句。 作为一个前端，生存指南的第一条就是紧跟潮流，但是平常上班已经占用了大量的时间和精力，怎么才能够有剩余的时间和经理去充电呢？我全凭一个兴趣！把学到的东西用到生活里去，给自己的生活提供些便利，这就是我的开发理念。 现在手上忙的两个项目，一个是DOTA2的小助手，功能很简单，查看比赛历史跟看直播。当初刚学 React Native 的时候">
+<meta name="keywords" content="博客">
+<meta property="og:type" content="article">
+<meta property="og:title" content="我的佛系开发日常">
+<meta property="og:url" content="http://liu-hang.cn/2019/11/21/146-my-philosophical-develop-life/index.html">
+<meta property="og:site_name" content="dreamser.com 技术博客">
+<meta property="og:description" content="所谓佛系，就是不争不抢，一切随缘，时候到了想写代码了，就写两句。 作为一个前端，生存指南的第一条就是紧跟潮流，但是平常上班已经占用了大量的时间和精力，怎么才能够有剩余的时间和经理去充电呢？我全凭一个兴趣！把学到的东西用到生活里去，给自己的生活提供些便利，这就是我的开发理念。 现在手上忙的两个项目，一个是DOTA2的小助手，功能很简单，查看比赛历史跟看直播。当初刚学 React Native 的时候">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2019-11-21T06:56:54.649Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="我的佛系开发日常">
+<meta name="twitter:description" content="所谓佛系，就是不争不抢，一切随缘，时候到了想写代码了，就写两句。 作为一个前端，生存指南的第一条就是紧跟潮流，但是平常上班已经占用了大量的时间和精力，怎么才能够有剩余的时间和经理去充电呢？我全凭一个兴趣！把学到的东西用到生活里去，给自己的生活提供些便利，这就是我的开发理念。 现在手上忙的两个项目，一个是DOTA2的小助手，功能很简单，查看比赛历史跟看直播。当初刚学 React Native 的时候">
+
+<link rel="canonical" href="http://liu-hang.cn/2019/11/21/146-my-philosophical-develop-life/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true
+  };
+</script>
+
+  <title>我的佛系开发日常 | dreamser.com 技术博客</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">dreamser.com 技术博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">每天进步一点点</p>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+  </ul>
+
+</nav>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope="" itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://liu-hang.cn/2019/11/21/146-my-philosophical-develop-life/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="dreamser.com">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="dreamser.com 技术博客">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          我的佛系开发日常
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2019-11-21 14:56:54" itemprop="dateCreated datePublished" datetime="2019-11-21T14:56:54+08:00">2019-11-21</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>所谓佛系，就是不争不抢，一切随缘，时候到了想写代码了，就写两句。</p>
+<p>作为一个前端，生存指南的第一条就是紧跟潮流，但是平常上班已经占用了大量的时间和精力，怎么才能够有剩余的时间和经理去充电呢？我全凭一个兴趣！把学到的东西用到生活里去，给自己的生活提供些便利，这就是我的开发理念。</p>
+<p>现在手上忙的两个项目，一个是DOTA2的小助手，功能很简单，查看比赛历史跟看直播。当初刚学 React Native 的时候找项目练手，那时候经常用 Max+ 所以就打算仿制一个，就有了现在的DOTA2小助手。第二个是一个本地TXT小说阅读器，因为用的几乎所有阅读器都是书城类的，太大，广告太多，我只看完结的，不追书，压根就不需要那些乱七八糟的功能，所以干脆就自己写了，这也是一个 React Native 的项目，还包含了 Android 原生。每一个项目都可以学到很多东西。</p>
+<h5 id="DOTA2小助手"><a href="#DOTA2小助手" class="headerlink" title="DOTA2小助手"></a>DOTA2小助手</h5><ol>
+<li>获取比赛列表，steam 有 API，只是要注册开发者账号，比较简单</li>
+<li>拿到比赛数据要呈现出来，英雄、技能、物品的图标、介绍哪里找？我先尝试了写爬虫从官网爬取数据，但官网的数据总是更新不及时，更新及时的是游戏文件，所以最后这些静态的数据来源是直接解析游戏内的文件</li>
+<li>直播列表，斗鱼、熊猫、火猫、战旗、虎牙等等直播平台，有的有API，有的靠爬虫，勉强凑起来一个DOTA2主播房间的列表</li>
+<li>视频源怎么拿？要了解直播流的机制，然后想办法找到直播流的地址，这个地址是不断更新的，如何才能无缝更新，这个至今还有问题</li>
+<li>有了数据，想要做点儿数据分析，但是steam API每1小时只能返回500条数据，根本不够，所以找IP代理，分别请求，这个也还在解决</li>
+</ol>
+<p>是的，我是一个前端</p>
+<h5 id="TXT阅读器"><a href="#TXT阅读器" class="headerlink" title="TXT阅读器"></a>TXT阅读器</h5><ol>
+<li>首先是读取文件展示文本，RN 没有现成方案，只能现学原生（广播、canvas、生命周期等等），文件读写都是 JAVA 的，也得看</li>
+<li>既然是本地阅读，那么阅读状态就要保存到本地，要用到数据库，realm 跨平台而且直接支持 RN，但是真难用，调试也费尽</li>
+<li>翻页效果还没做…</li>
+<li>我也想爬个书城…</li>
+</ol>
+<p>慢慢来吧</p>
+<p>嗯，东西都是一天几行代码写出来的，有时候想起来了写点儿，学点儿，兴趣是最好的老师嘛。</p>
+<p>博客也是想起来就写点儿，东西写到哪儿算哪儿…</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2019/11/21/131-react-native-chart-scheme/" rel="prev" title="react-native 图表解决方案">
+      <i class="fa fa-chevron-left"></i> react-native 图表解决方案
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2019/11/21/145-baby-driver-winter-guide/" rel="next" title="小白司机冬季指南">
+      小白司机冬季指南 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let activeClass = CONFIG.comments.activeClass;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-5"><a class="nav-link" href="#DOTA2小助手"><span class="nav-number">1.</span> <span class="nav-text">DOTA2小助手</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#TXT阅读器"><span class="nav-number">2.</span> <span class="nav-text">TXT阅读器</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">dreamser.com</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">206</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">13</span>
+        <span class="site-state-item-name">分类</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">49</span>
+        <span class="site-state-item-name">标签</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">dreamser.com</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.8.0
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">主题 – <a href="https://muse.theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> v7.7.0
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script>
+<script src="/js/schemes/muse.js"></script>
+<script src="/js/next-boot.js"></script>
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

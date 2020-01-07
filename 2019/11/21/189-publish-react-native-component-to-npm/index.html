@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 3.8.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    hostname: new URL('http://liu-hang.cn').hostname,
+    root: '/',
+    scheme: 'Muse',
+    version: '7.7.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    comments: {"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.xml',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}
+  };
+</script>
+
+  <meta name="description" content="截屏捕捉组件1npm i react-native-screenshotcatch 背景前一段时间写的 react-native 截屏监听功能是直接写进项目中的，现在打算将其单独封装发布到 NPM 上去，之前也发过一个命令行工具但是没有写文记录一下过程，这次补上">
+<meta name="keywords" content="博客">
+<meta property="og:type" content="article">
+<meta property="og:title" content="发布 ReactNative 组件到 NPM">
+<meta property="og:url" content="http://liu-hang.cn/2019/11/21/189-publish-react-native-component-to-npm/index.html">
+<meta property="og:site_name" content="dreamser.com 技术博客">
+<meta property="og:description" content="截屏捕捉组件1npm i react-native-screenshotcatch 背景前一段时间写的 react-native 截屏监听功能是直接写进项目中的，现在打算将其单独封装发布到 NPM 上去，之前也发过一个命令行工具但是没有写文记录一下过程，这次补上">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2019-11-21T06:56:54.655Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="发布 ReactNative 组件到 NPM">
+<meta name="twitter:description" content="截屏捕捉组件1npm i react-native-screenshotcatch 背景前一段时间写的 react-native 截屏监听功能是直接写进项目中的，现在打算将其单独封装发布到 NPM 上去，之前也发过一个命令行工具但是没有写文记录一下过程，这次补上">
+
+<link rel="canonical" href="http://liu-hang.cn/2019/11/21/189-publish-react-native-component-to-npm/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true
+  };
+</script>
+
+  <title>发布 ReactNative 组件到 NPM | dreamser.com 技术博客</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">dreamser.com 技术博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">每天进步一点点</p>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+  </ul>
+
+</nav>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope="" itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://liu-hang.cn/2019/11/21/189-publish-react-native-component-to-npm/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="dreamser.com">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="dreamser.com 技术博客">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          发布 ReactNative 组件到 NPM
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2019-11-21 14:56:54" itemprop="dateCreated datePublished" datetime="2019-11-21T14:56:54+08:00">2019-11-21</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="截屏捕捉组件"><a href="#截屏捕捉组件" class="headerlink" title="截屏捕捉组件"></a>截屏捕捉组件</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm i react-native-screenshotcatch</span><br></pre></td></tr></table></figure>
+<h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>前一段时间写的 react-native 截屏监听功能是直接写进项目中的，现在打算将其单独封装发布到 NPM 上去，之前也发过一个命令行工具但是没有写文记录一下过程，这次补上</p>
+<a id="more"></a>
+<h2 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h2><h4 id="使用-react-native-create-library"><a href="#使用-react-native-create-library" class="headerlink" title="使用 react-native-create-library"></a>使用 react-native-create-library</h4><p><code>react-native-create-library</code> 是一个自定义组件模板工具，比自己去创建省很多麻烦</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">npm i -g react-native-create-library # 安装</span><br><span class="line">react-native-create-library --package-identifier com.dreamser.screenshotcatch --platforms android,ios screenshotcatch</span><br><span class="line">mv screenshotcatch react-native-screenshotcatch</span><br></pre></td></tr></table></figure>
+<h4 id="更新-build-gradle"><a href="#更新-build-gradle" class="headerlink" title="更新 build.gradle"></a>更新 build.gradle</h4><p><code>react-native-create-library</code> 中的依赖版本太低，需要更新一下</p>
+<h4 id="编写代码"><a href="#编写代码" class="headerlink" title="编写代码"></a>编写代码</h4><p>请见 <a href="http://liu-hang.cn/2019/06/11/185-react-native-screen-shot-share/">React Native 实现截图添加二维码分享功能</a></p>
+<h4 id="完善-readme"><a href="#完善-readme" class="headerlink" title="完善 readme"></a>完善 readme</h4><p><code>react-native-create-library</code> 已经为你准备了基础的模板，具体内容需要自己来添加</p>
+<h4 id="上传-github"><a href="#上传-github" class="headerlink" title="上传 github"></a>上传 github</h4><p>初始化本地repo，在github创建远程repo，连接，上传代码…在这里不做赘述</p>
+<h4 id="完善-package-json"><a href="#完善-package-json" class="headerlink" title="完善 package.json"></a>完善 package.json</h4><p>package.json文件定义了发布的所有信息，包括：组件名、版本、作者、描述、依赖等等关键信息。具体可以参照 <a href="https://docs.npmjs.com/creating-a-package-json-file" target="_blank" rel="noopener">Creating a package.json file</a></p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">&#123;</span><br><span class="line">  <span class="attr">"name"</span>: <span class="string">"react-native-screenshotcatch"</span>,</span><br><span class="line">  <span class="attr">"version"</span>: <span class="string">"0.0.1"</span>,</span><br><span class="line">  <span class="attr">"description"</span>: <span class="string">"A ReactNative Tool for catch Screen Shot Event"</span>,</span><br><span class="line">  <span class="attr">"main"</span>: <span class="string">"index.js"</span>,</span><br><span class="line">  <span class="attr">"scripts"</span>: &#123;</span><br><span class="line">    <span class="attr">"test"</span>: <span class="string">"echo \"Error: no test specified\" &amp;&amp; exit 1"</span></span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="attr">"keywords"</span>: [</span><br><span class="line">    <span class="string">"react-native"</span>,</span><br><span class="line">    <span class="string">"screen-shot"</span>,</span><br><span class="line">    <span class="string">"screen-capture"</span>,</span><br><span class="line">    <span class="string">"ios"</span>,</span><br><span class="line">    <span class="string">"android"</span></span><br><span class="line">  ],</span><br><span class="line">  <span class="attr">"author"</span>: &#123;</span><br><span class="line">    <span class="attr">"name"</span>: <span class="string">"callcter"</span>,</span><br><span class="line">    <span class="attr">"email"</span>: <span class="string">"sharpliuzigu@gmail.com"</span></span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="attr">"license"</span>: <span class="string">"MIT"</span>,</span><br><span class="line">  <span class="attr">"repository"</span>: &#123;</span><br><span class="line">    <span class="attr">"type"</span>: <span class="string">"git"</span>,</span><br><span class="line">    <span class="attr">"url"</span>: <span class="string">"git@github.com:callcter/react-native-screenshotcatch.git"</span></span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="attr">"peerDependencies"</span>: &#123;</span><br><span class="line">    <span class="attr">"react-native"</span>: <span class="string">"^0.41.2"</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="发布到-NPM"><a href="#发布到-NPM" class="headerlink" title="发布到 NPM"></a>发布到 NPM</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">npm adduser # 创建 NPM 账号</span><br><span class="line">npm login # 如果已经在官网有账号，可以直接登录</span><br><span class="line">npm whoami # 查看登录状态</span><br><span class="line">npm publish # 发布</span><br></pre></td></tr></table></figure>
+<p>发布时可能遇到 <code>publish Failed PUT 403</code> 错误，原因是更改了镜像源</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">npm config get registry # 查看当前镜像源</span><br><span class="line">npm config set registry=http://registry.npmjs.org # 更改回官方镜像源</span><br><span class="line">npm publish # 重新发布</span><br></pre></td></tr></table></figure>
+<h4 id="NPM-更新"><a href="#NPM-更新" class="headerlink" title="NPM 更新"></a>NPM 更新</h4><p>npm 提供官方提供了<code>npm version</code>来进行版本控制，其效果跟手动修改package.json里面的version字段是一样的，好处在于，可以在构建过程中用<code>npm version</code>命令自动修改，而且具有语义化即<code>Semantic versioning</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">npm version [&lt;newversion&gt; | major | minor | patch | premajor | preminor | </span><br><span class="line">prepatch | prerelease | from-git]</span><br></pre></td></tr></table></figure>
+<p>语义为：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">major：主版本号（大版本）</span><br><span class="line">minor：次版本号（小更新）</span><br><span class="line">patch：补丁号（补丁）</span><br><span class="line">premajor：预备主版本</span><br><span class="line">preminor: 预备次版本</span><br><span class="line">prepatch：预备补丁版本</span><br><span class="line">prerelease：预发布版本</span><br></pre></td></tr></table></figure>
+<h2 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h2><ul>
+<li><a href="https://blog.csdn.net/sinat_17775997/article/details/82491712" target="_blank" rel="noopener">开发自己的react-native组件并发布到npm</a></li>
+<li><a href="https://github.com/frostney/react-native-create-library" target="_blank" rel="noopener">frostney/react-native-create-library</a></li>
+<li><a href="https://juejin.im/post/5c5012926fb9a049d37f81e1" target="_blank" rel="noopener">NPM包（模块）发布、更新、撤销发布</a></li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2019/11/21/184-react-native-umeng-share/" rel="prev" title="Umeng 社会化分享集成（微信、QQ、微博、小程序）">
+      <i class="fa fa-chevron-left"></i> Umeng 社会化分享集成（微信、QQ、微博、小程序）
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2019/11/21/188-make-kindle-ebook/" rel="next" title="制作Kindle电子书">
+      制作Kindle电子书 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let activeClass = CONFIG.comments.activeClass;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#截屏捕捉组件"><span class="nav-number">1.</span> <span class="nav-text">截屏捕捉组件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#背景"><span class="nav-number">2.</span> <span class="nav-text">背景</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#实现"><span class="nav-number">3.</span> <span class="nav-text">实现</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#使用-react-native-create-library"><span class="nav-number">3.0.1.</span> <span class="nav-text">使用 react-native-create-library</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#更新-build-gradle"><span class="nav-number">3.0.2.</span> <span class="nav-text">更新 build.gradle</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#编写代码"><span class="nav-number">3.0.3.</span> <span class="nav-text">编写代码</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#完善-readme"><span class="nav-number">3.0.4.</span> <span class="nav-text">完善 readme</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#上传-github"><span class="nav-number">3.0.5.</span> <span class="nav-text">上传 github</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#完善-package-json"><span class="nav-number">3.0.6.</span> <span class="nav-text">完善 package.json</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#发布到-NPM"><span class="nav-number">3.0.7.</span> <span class="nav-text">发布到 NPM</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#NPM-更新"><span class="nav-number">3.0.8.</span> <span class="nav-text">NPM 更新</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考文章"><span class="nav-number">4.</span> <span class="nav-text">参考文章</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">dreamser.com</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">206</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">13</span>
+        <span class="site-state-item-name">分类</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">49</span>
+        <span class="site-state-item-name">标签</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">dreamser.com</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.8.0
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">主题 – <a href="https://muse.theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> v7.7.0
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script>
+<script src="/js/schemes/muse.js"></script>
+<script src="/js/next-boot.js"></script>
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

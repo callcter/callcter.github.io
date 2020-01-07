@@ -1,0 +1,629 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 3.8.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    hostname: new URL('http://liu-hang.cn').hostname,
+    root: '/',
+    scheme: 'Muse',
+    version: '7.7.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    comments: {"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.xml',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}
+  };
+</script>
+
+  <meta name="description" content="ROEROE 是 Return Of Equity 的缩写，中文意思是股本回报率，又叫股权收益率、股本收益率以及我们最常用的净资产收益率。 净资产收益率是衡量相对于股东权益的投资产出回报的指标，反映公司利用资产净值产生纯利的能力。最简单的理解方式是：假设公司 ROE 为 30%，那么投资者投入1块钱，公司就能产生3毛钱的净利润。 净资产收益率又分全面摊薄净资产收益率与加权平均净资产收益率">
+<meta name="keywords" content="博客">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ROE">
+<meta property="og:url" content="http://liu-hang.cn/2019/11/21/194-roe/index.html">
+<meta property="og:site_name" content="dreamser.com 技术博客">
+<meta property="og:description" content="ROEROE 是 Return Of Equity 的缩写，中文意思是股本回报率，又叫股权收益率、股本收益率以及我们最常用的净资产收益率。 净资产收益率是衡量相对于股东权益的投资产出回报的指标，反映公司利用资产净值产生纯利的能力。最简单的理解方式是：假设公司 ROE 为 30%，那么投资者投入1块钱，公司就能产生3毛钱的净利润。 净资产收益率又分全面摊薄净资产收益率与加权平均净资产收益率">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2019-11-21T06:56:54.656Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="ROE">
+<meta name="twitter:description" content="ROEROE 是 Return Of Equity 的缩写，中文意思是股本回报率，又叫股权收益率、股本收益率以及我们最常用的净资产收益率。 净资产收益率是衡量相对于股东权益的投资产出回报的指标，反映公司利用资产净值产生纯利的能力。最简单的理解方式是：假设公司 ROE 为 30%，那么投资者投入1块钱，公司就能产生3毛钱的净利润。 净资产收益率又分全面摊薄净资产收益率与加权平均净资产收益率">
+
+<link rel="canonical" href="http://liu-hang.cn/2019/11/21/194-roe/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true
+  };
+</script>
+
+  <title>ROE | dreamser.com 技术博客</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">dreamser.com 技术博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">每天进步一点点</p>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+  </ul>
+
+</nav>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope="" itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://liu-hang.cn/2019/11/21/194-roe/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="dreamser.com">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="dreamser.com 技术博客">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          ROE
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2019-11-21 14:56:54" itemprop="dateCreated datePublished" datetime="2019-11-21T14:56:54+08:00">2019-11-21</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h3 id="ROE"><a href="#ROE" class="headerlink" title="ROE"></a>ROE</h3><p>ROE 是 Return Of Equity 的缩写，中文意思是股本回报率，又叫股权收益率、股本收益率以及我们最常用的净资产收益率。</p>
+<p>净资产收益率是衡量相对于股东权益的投资产出回报的指标，反映公司利用资产净值产生纯利的能力。最简单的理解方式是：假设公司 ROE 为 30%，那么投资者投入1块钱，公司就能产生3毛钱的净利润。</p>
+<p>净资产收益率又分全面摊薄净资产收益率与加权平均净资产收益率</p>
+<a id="more"></a>
+<h3 id="计算公式"><a href="#计算公式" class="headerlink" title="计算公式"></a>计算公式</h3><p>最常用的基本计算公式为：</p>
+<blockquote>
+<p>净资产收益率 = 净利润 \/ 净资产</p>
+</blockquote>
+<h5 id="全面摊薄净资产收益率"><a href="#全面摊薄净资产收益率" class="headerlink" title="全面摊薄净资产收益率"></a>全面摊薄净资产收益率</h5><blockquote>
+<p>全面摊薄净资产收益率 = 报告期净利润 \/ 期末净资产</p>
+</blockquote>
+<h5 id="加权平均净资产收益率"><a href="#加权平均净资产收益率" class="headerlink" title="加权平均净资产收益率"></a>加权平均净资产收益率</h5><blockquote>
+<p>加权平均净资产收益率 = P \/ （E0 + NP \/ 2 + Ei <em> Mi \/ M0 - Ej </em> Mj \/ M0）<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">P - 报告期利润；</span><br><span class="line">NP - 报告期净利润；</span><br><span class="line">E0 - 期初净资产；</span><br><span class="line">Ei - 报告期发行新股或债转股等新增净资产；</span><br><span class="line">Ej - 报告期回购或现金分红等减少净资产；</span><br><span class="line">M0 - 报告期月份数；</span><br><span class="line">Mi - 新增净资产下一月份起至报告期期末的月份数；</span><br><span class="line">Mj - 减少净资产下一月份起至报告期期末的月份数。</span><br></pre></td></tr></table></figure></p>
+</blockquote>
+<h3 id="分析方法"><a href="#分析方法" class="headerlink" title="分析方法"></a>分析方法</h3><h4 id="杜邦公式"><a href="#杜邦公式" class="headerlink" title="杜邦公式"></a>杜邦公式</h4><p>最常用的分析方法为杜邦公式：</p>
+<blockquote>
+<p>净资产收益率 = 销售净利率 <em> 总资产周转率 </em> 杠杆比率</p>
+<p>销售净利率 = 净利润 \/ 销售收入</p>
+<p>总资产周转率 = 销售收入 \/ 总资产</p>
+<p>杠杆比率 = 总资产 \/ 净资产</p>
+<p>净资产收益率 = （ 净利润 \/ 销售收入 ）<em> （ 销售收入 \/ 总资产 ）</em>（ 总资产 \/ 净资产 ）</p>
+</blockquote>
+<h4 id="实例"><a href="#实例" class="headerlink" title="实例"></a>实例</h4><p>以捷昌驱动2018年ROE相对2017年ROE的变动为例，采用杜邦公式分析变动原因：</p>
+<table>
+<thead>
+<tr>
+<th>项目</th>
+<th>2017年</th>
+<th>2018年</th>
+<th>变动</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ROE</td>
+<td>30.62%</td>
+<td>16.04%</td>
+<td>-14.58%</td>
+</tr>
+<tr>
+<td>营业净利率</td>
+<td>22.72%</td>
+<td>22.75%</td>
+<td>0.03%</td>
+</tr>
+<tr>
+<td>总资产周转率</td>
+<td>0.98</td>
+<td>0.58</td>
+<td>-0.4</td>
+</tr>
+<tr>
+<td>杠杆比率</td>
+<td>1.37</td>
+<td>1.21</td>
+<td>-0.16</td>
+</tr>
+</tbody>
+</table>
+<p><b style="color:red">计算过程会因保留精度问题有所误差，所以全部使用 ~=，不必强求结果准确</b></p>
+<p>营业净利率对ROE变动的影响为：（22.75%-22.72%）<em>0.98</em>1.37-16.04% ~= 0.04%</p>
+<p>总资产周转率对ROE变动的影响为：22.75%<em>（0.58-0.98）</em>1.37 ~= -12.45%</p>
+<p>杠杆比率对ROE变动的影响为：22.75%<em>0.58</em>（1.21-1.37） ~= -2.11%</p>
+<p>（ 0.04% + -12.45% + -2.11% ） ~= -14.58%</p>
+<p>根据分析可知，捷昌驱动2018年ROE相对2017年下降14.58%的原因主要是总资产周转率以及杠杆比率的变化。</p>
+<p>这是对ROE进行的一级拆解，可以得出变动的大体原因，但是具体原因还需要继续查看，这就需要进行二级拆解。</p>
+<h5 id="营业净利率"><a href="#营业净利率" class="headerlink" title="营业净利率"></a>营业净利率</h5><blockquote>
+<p>净利率 = 毛利率 - 销售费用率 - 管理费用率 - 研发费用率 - 财务费用率 - 其他费用率 - 税率</p>
+</blockquote>
+<p>营业净利率变动值：0.04%<br>营业净利率对ROE变动的影响：0.03%</p>
+<table>
+<thead>
+<tr>
+<th>项目</th>
+<th>2017年</th>
+<th>2018年</th>
+<th>变动</th>
+<th>影响</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>毛利率 = （营业总收入-营业成本）\/ 营业总收入</td>
+<td>44.95%</td>
+<td>42.06%</td>
+<td>-2.89%</td>
+<td>-2.89%*（0.04%/0.03%）~= 3.85%</td>
+</tr>
+<tr>
+<td>销售费用率 = 销售费用 \/ 营业总收入</td>
+<td>7.73%</td>
+<td>6.37%</td>
+<td>-1.36%</td>
+<td>~= -1.74%</td>
+</tr>
+<tr>
+<td>管理费用率 = 管理费用 \/ 营业总收入</td>
+<td>5.34%</td>
+<td>5.38%</td>
+<td>0.04%</td>
+<td>~= 0.05%</td>
+</tr>
+<tr>
+<td>研发费用率 = 研发费用 \/ 营业总收入</td>
+<td>4.47%</td>
+<td>4.42%</td>
+<td>-0.05%</td>
+<td>~= -0.07%</td>
+</tr>
+<tr>
+<td>财务费用率 = 财务费用 \/ 营业总收入</td>
+<td>0.82%</td>
+<td>-0.87%</td>
+<td>-1.69%</td>
+<td>~= -2.25%</td>
+</tr>
+</tbody>
+</table>
+<h5 id="总资产周转率"><a href="#总资产周转率" class="headerlink" title="总资产周转率"></a>总资产周转率</h5><blockquote>
+<p>总资产周转天数 = 360 \/ 总资产周转率</p>
+</blockquote>
+<p>总资产周转天数变动：360 \/ 0.58 - 360 \/ 0.98 = 253.34<br>总资产周转率对ROE变动的影响：-12.45%</p>
+<table>
+<thead>
+<tr>
+<th>项目</th>
+<th>2017年</th>
+<th>2018年</th>
+<th>变动</th>
+<th>影响</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>应收票据及应收账款周转天数</td>
+<td>29.28</td>
+<td>41.27</td>
+<td>11.99</td>
+<td>11.99*（-12.45%/253.34）~= -0.59%</td>
+</tr>
+<tr>
+<td>存货周转天数</td>
+<td>47.38</td>
+<td>63.21</td>
+<td>15.83</td>
+<td>-0.78%</td>
+</tr>
+<tr>
+<td>固定资产周转天数</td>
+<td>99.96</td>
+<td>88.98</td>
+<td>-10.98</td>
+<td>0.54%</td>
+</tr>
+<tr>
+<td>在建工程周转天数</td>
+<td>5.24</td>
+<td>7.82</td>
+<td>2.58</td>
+<td>-0.13%</td>
+</tr>
+<tr>
+<td>其他资产周转天数</td>
+<td>185.11</td>
+<td>417.20</td>
+<td>232.09</td>
+<td>-11.04%</td>
+</tr>
+</tbody>
+</table>
+<h5 id="杠杆比率"><a href="#杠杆比率" class="headerlink" title="杠杆比率"></a>杠杆比率</h5><blockquote>
+<p>杠杆比率 = 总资产 \/ 净资产 = （净资产+总负债） \/ 净资产<br>负债 = 流动负债 + 非流动负债 = 金融负债 + 经营负债</p>
+</blockquote>
+<p>杠杆比率对ROE的影响：-2.11%</p>
+<table>
+<thead>
+<tr>
+<th>项目</th>
+<th>2017年</th>
+<th>2018年</th>
+<th>变动</th>
+<th>影响</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>流动负债\/净资产</td>
+<td>0.36</td>
+<td>0.21</td>
+<td>-0.15</td>
+<td>-2.11%\/（-0.15+-0.01）*-0.15 ~= -1.98%</td>
+</tr>
+<tr>
+<td>非流动负债\/净资产</td>
+<td>0.01</td>
+<td>0.00</td>
+<td>-0.01</td>
+<td>-2.11% - -1.98% ~= -0.13%</td>
+</tr>
+<tr>
+<td>金融负债\/净资产</td>
+<td>0.11</td>
+<td>0.19</td>
+<td>0.08</td>
+<td>-2.11%\/（0.08+ -0.24）*0.08 ~= 1.06%</td>
+</tr>
+<tr>
+<td>经营负债\/净资产</td>
+<td>0.26</td>
+<td>0.02</td>
+<td>-0.24</td>
+<td>-2.11%-1.06% ~= -3.17%</td>
+</tr>
+</tbody>
+</table>
+<h5 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h5><p>根据进一步拆解分析得出结论：</p>
+<p>1、其他资产周转天数的增加是2018年ROE降低的主要原因<br>2、流动负债/净资产、经营负债/净资产减少对2018年ROE降低也有较大影响</p>
+<h3 id="缺陷"><a href="#缺陷" class="headerlink" title="缺陷"></a>缺陷</h3><ol>
+<li><p>净资产收益率的计算，分子是净利润，分母是净资产，由于企业的净利润并非仅是净资产所产生的，因而分子分母的计算口径并不一致，从逻辑上是不合理的。</p>
+</li>
+<li><p>净资产收益率可以反映企业净资产(股权资金)的收益水平，但并不能全面反映一个企业的资金运用能力。<br>道理十分明显，全面反映一个企业资金运作的整体效果的指标，应当是总资产收益率，而非净资产收益率，所谓总资产收益率，计算公式是：<br>净利润÷资产总额(负债十所有者权益)×100%<br>比较一下它与净资产收益率的差别，仅在于分母的计算范围上，净资产收益率的计算分母是净资产，总资产收益率的计算分母是全部资产，这样分子分母才具有可比性，在计算口径上才是一致的。</p>
+</li>
+<li><p>运用净资产收益率考核企业资金利用效果，存在很多局限性。<br>（1）每股收益与净资产收益率指标互补性不强。由于各个上市公司的资产规模不相等，因而不能以各企业的收益绝对值指标来考核其效益和管理水平。考核标准主要是每股收益和净资产收益率两项相对数指标，然而，每股收益主要是考核企业股权资金的使用情况，净资产收益率虽然考核范围略大(净资产包括股本、资本公积、盈余公积、未分配利润)，但也只是反映了企业权益性资金的使用情况，显然在考核企业效益指标体系的设计上，需要调整和完善。<br>（2）以净资产收益率作为考核指标不利于企业的横向比较。由于企业负债率的差别，如某些企业负债畸高，导致某些微利企业净资产收益率却偏高，甚至达到了配股要求，而有些企业尽管效益不错，但由于财务结构合理，负债较低，净资产收益率却较低，并且有可能达不到配股要求。<br>（3）考核净资产收益率指标也不利于对企业进行纵向比较分析。企业可通过诸如以负债回购股权的方式来提高每股收益和净资产收益率，而实际上，该企业经济效益和资金利用效果并未提高。以200O年度实施国有股回购的上市公司“云天化”为例，该公司2000年的利润总额和净利润分别比1999年下降了33.66%和 36.58%，但由于当年回购国有股2亿股，每股收益和净资产收益率分别只下降了0.01元和2.33%，下降幅度分别只是2%和13%。这种考核结果无疑会对投资者的决策产生不良影响。<br>由上可以看出，以净资产收益率指标作为企业再筹资的考核标准，弊病较多，而改用总资产收益率考核，较之要合理得多，一方面可以恰当地反映企业资金利用效果，帮助投资者作出正确的投资决策，也可以在一定程度上避免企业玩“数字游戏”达标。因此全面地考核企业资金利用效用，引导社会资源的合理流动，真正使资金流向经济效益高的企业，抑制企业筹资冲动，应改用总资产收益率来作为配股和增发的考核标准。</p>
+</li>
+</ol>
+<h3 style="color:red;text-align:center">数据来自于<a href="https://www.aganjinrong.com/app/download" target="_blank">《阿甘投研》</a>，分析结果不构成购买建议</h3>
+
+
+<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><ul>
+<li><a href="https://baike.baidu.com/item/%E5%87%80%E8%B5%84%E4%BA%A7%E6%94%B6%E7%9B%8A%E7%8E%87/2064749?fromtitle=ROE&amp;fromid=9511" target="_blank" rel="noopener">净资产收益率</a></li>
+<li><a href="https://www.lixinger.com/wiki/roe/" target="_blank" rel="noopener">ROE</a></li>
+<li><a href="http://www.csrc.gov.cn/shenzhen/ztzl/ssgsjgxx/jgfg/ssxxpl/201506/t20150612_279026.htm" target="_blank" rel="noopener">公开发行证券的公司信息披露编报规则第9号——净资产收益率和每股收益的计算及披露（证监会公告[2010]2号，2010年1月11日修订）</a></li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2019/11/21/196-profit-and-loss-statement/" rel="prev" title="利润表">
+      <i class="fa fa-chevron-left"></i> 利润表
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2019/11/21/195-stock-datas/" rel="next" title="股票数据来源整理">
+      股票数据来源整理 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let activeClass = CONFIG.comments.activeClass;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#ROE"><span class="nav-number">1.</span> <span class="nav-text">ROE</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#计算公式"><span class="nav-number">2.</span> <span class="nav-text">计算公式</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#全面摊薄净资产收益率"><span class="nav-number">2.0.1.</span> <span class="nav-text">全面摊薄净资产收益率</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#加权平均净资产收益率"><span class="nav-number">2.0.2.</span> <span class="nav-text">加权平均净资产收益率</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#分析方法"><span class="nav-number">3.</span> <span class="nav-text">分析方法</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#杜邦公式"><span class="nav-number">3.1.</span> <span class="nav-text">杜邦公式</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#实例"><span class="nav-number">3.2.</span> <span class="nav-text">实例</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#营业净利率"><span class="nav-number">3.2.1.</span> <span class="nav-text">营业净利率</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#总资产周转率"><span class="nav-number">3.2.2.</span> <span class="nav-text">总资产周转率</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#杠杆比率"><span class="nav-number">3.2.3.</span> <span class="nav-text">杠杆比率</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#结论"><span class="nav-number">3.2.4.</span> <span class="nav-text">结论</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#缺陷"><span class="nav-number">4.</span> <span class="nav-text">缺陷</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#undefined"><span class="nav-number">5.</span> <span class="nav-text">数据来自于《阿甘投研》，分析结果不构成购买建议</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#参考"><span class="nav-number">6.</span> <span class="nav-text">参考</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">dreamser.com</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">206</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">13</span>
+        <span class="site-state-item-name">分类</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">49</span>
+        <span class="site-state-item-name">标签</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">dreamser.com</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.8.0
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">主题 – <a href="https://muse.theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> v7.7.0
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script>
+<script src="/js/schemes/muse.js"></script>
+<script src="/js/next-boot.js"></script>
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>
